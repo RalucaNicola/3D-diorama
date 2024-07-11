@@ -1,0 +1,11 @@
+.background {
+  background: var(--background-color);
+}
+
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .background {
+    background: var(--background-color);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}

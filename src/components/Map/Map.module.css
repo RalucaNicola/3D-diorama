@@ -1,0 +1,12 @@
+.mapContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #8bbce4;
+}
+
+canvas {
+  filter: drop-shadow(0px 0px 40px rgb(255, 255, 255, 0.8));
+}

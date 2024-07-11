@@ -1,0 +1,39 @@
+.container {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  background-color: var(--background-color);
+}
+.bookmark {
+  background-color: var(--background-color);
+  color: rgb(210, 210, 210);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  margin: 15px 0;
+  opacity: 0.3;
+  transition: opacity 300ms;
+}
+
+.bookmark p {
+  padding: 0;
+  margin: 0;
+}
+
+.active,
+.visited {
+  opacity: 1;
+}
+.active {
+  border-right: 1px solid white;
+}
+
+.progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
