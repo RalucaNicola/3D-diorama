@@ -153,10 +153,19 @@ export default class BookmarkManager {
     };
 
     async activateBookmark(id: number, status: boolean) {
+        const signal = this.resetSignal();
         switch (id) {
             case 0:
                 if (status) {
-                    this.view.goTo(this.bladeGraphics);
+                    this.animationManager.animateCamera({
+                        camera: {
+                            x: -13549161.92507,
+                            y: 4307774.12432,
+                            z: 174.102,
+                            heading: 34.47,
+                            tilt: 82.31
+                        }, signal
+                    });
                     this.animationManager.animateTurbines(this.bladeGraphics);
                 } else {
                     this.animationManager.stopAnimatingTurbines();
@@ -164,7 +173,15 @@ export default class BookmarkManager {
                 break;
             case 1:
                 if (status) {
-                    this.view.goTo(this.pinpoint);
+                    this.animationManager.animateCamera({
+                        camera: {
+                            x: -13537764.11181,
+                            y: 4307887.74312,
+                            z: 920.260,
+                            heading: 6.32,
+                            tilt: 83.61
+                        }, signal
+                    })
                     this.animationManager.animatePinpoint(this.pinpoint);
                 } else {
                     this.animationManager.stopAnimatingPinpoint();
@@ -172,7 +189,15 @@ export default class BookmarkManager {
                 break;
             case 2:
                 if (status) {
-                    this.view.goTo(this.sailBoat);
+                    this.animationManager.animateCamera({
+                        camera: {
+                            x: -13544598.82708,
+                            y: 4307484.75467,
+                            z: 15.41,
+                            heading: 55.62,
+                            tilt: 82.22
+                        }, signal
+                    });
                     this.animationManager.animateBoat(this.sailBoat);
                 } else {
                     this.animationManager.stopAnimatingBoat();
@@ -180,7 +205,15 @@ export default class BookmarkManager {
                 break;
             case 3:
                 if (status) {
-                    this.view.goTo(this.submarine);
+                    this.animationManager.animateCamera({
+                        camera: {
+                            x: -13545249.77396,
+                            y: 4302143.42422,
+                            z: 386.005,
+                            heading: 52.08,
+                            tilt: 78.73
+                        }, signal
+                    });
                     this.animationManager.animateSubmarine();
                 } else {
                     this.animationManager.stopAnimatingSubmarine();

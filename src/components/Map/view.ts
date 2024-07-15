@@ -42,7 +42,7 @@ export const initializeView = async (divRef: HTMLDivElement) => {
             ui: {
                 components: []
             },
-            qualityProfile: "high",
+            qualityProfile: "low",
             alphaCompositingEnabled: true,
             environment: {
                 lighting: new VirtualLighting({

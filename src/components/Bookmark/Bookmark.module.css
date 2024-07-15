@@ -1,33 +1,49 @@
-.container {
+.menu {
   position: absolute;
   bottom: 10px;
   left: 0;
   right: 0;
+  padding: 20px;
+  text-align: center;
+  background: var(--background-color);
+}
+
+.container {
   display: flex;
-}
-
-.bookmark {
-  background-color: var(--background-color);
-  color: rgb(210, 210, 210);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  margin: 15px 0;
-  opacity: 0.3;
-  transition: opacity 300ms;
-}
-
-.bookmark p {
-  padding: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   margin: 0;
 }
 
-.active,
-.visited {
-  opacity: 1;
+h1 {
+  margin: 0;
+  font-size: 1.2rem;
 }
-.active {
-  border-right: 1px solid white;
+
+.description {
+  max-width: 800px;
+  margin: 10px auto;
+}
+
+button.bookmark {
+  background-color: var(--calcite-color-brand);
+  color: white;
+  border: none;
+  padding: 3px 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.7s ease;
+  font-family: 'Press Start 2P', cursive;
+}
+
+button.bookmark:hover {
+  background-color: var(--calcite-color-brand-hover);
+  transform: translateY(4px);
+}
+
+button.active {
+  background-color: var(--calcite-color-brand-hover);
 }
 
 .progress {
@@ -35,5 +51,4 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 10px;
 }

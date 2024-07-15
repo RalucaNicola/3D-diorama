@@ -35,7 +35,12 @@ export const Bookmarks = observer(() => {
   }, [viewLoaded]);
 
   return (
-    <>
+    <div className={styles.menu}>
+      <h1>Animations</h1>
+      <p className={styles.description}>
+        A demonstration on animating 3D models by translating, rotating or scaling them. Read the blog post{' '}
+        <a href='#'>here</a>.
+      </p>
       <div className={styles.container}>
         {selectedBookmarkIds.map((bookmark) => {
           return (
@@ -53,6 +58,6 @@ export const Bookmarks = observer(() => {
         })}
       </div>
       {!assetsLoaded ? <CalciteProgress className={styles.progress} type='indeterminate'></CalciteProgress> : null}
-    </>
+    </div>
   );
 });

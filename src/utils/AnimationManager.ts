@@ -190,7 +190,6 @@ export default class AnimationManager {
                 startTime = elapsedTime;
             }
             const time = elapsedTime - startTime;
-            console.log(time);
             if (this.animatingSubmarine) {
                 const { translation, rotation } = this.getTranslationAndRotationAtTime(time);
                 this.submarine.transform.translation = translation;

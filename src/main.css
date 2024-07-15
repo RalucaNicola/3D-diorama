@@ -1,9 +1,9 @@
 @import 'https://js.arcgis.com/4.27/@arcgis/core/assets/esri/themes/dark/main.css';
-
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 .calcite-mode-dark,
 :root {
-  --calcite-color-brand: #eb3492;
-  --calcite-color-brand-hover: #9e2161;
+  --calcite-color-brand: #f29c3f;
+  --calcite-color-brand-hover: #f27e00;
   --border-radius: 10px;
   --box-shadow: 2px 4px 4px hsla(0, 0%, 2%, 0.2), 4px 8px 8px hsla(0, 0%, 2%, 0.2), 8px 16px 16px hsla(0, 0%, 2%, 0.2);
   --margin: 15px;
@@ -22,14 +22,14 @@ body,
   margin: 0;
   height: 100%;
   width: 100%;
-  font-family: var(--calcite-sans-family);
+  font-family: 'Space Mono', monospace;
   color: var(--calcite-ui-text-1);
   background: var(--background-color);
   overflow: hidden;
 }
 
 a {
-  color: var(--calcite-ui-text-3);
+  color: var(--calcite-color-brand);
   text-decoration: none;
 }
 
