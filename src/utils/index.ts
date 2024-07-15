@@ -1,20 +1,17 @@
-const fadeLayer = (layer: __esri.Layer) => {
-    const opacity = parseFloat((layer.opacity + 0.02).toFixed(2));
-    layer.opacity = opacity;
-    if (layer.opacity < 1) {
-        window.requestAnimationFrame(function () {
-            fadeLayer(layer);
-        });
+export const getAngle = (p1: __esri.Point, p2: __esri.Point) => {
+    const dx = p2.x - p1.x;
+    const dy = p2.y - p1.y
+    let rad = Math.atan2(dy, dx) - Math.PI / 2;
+
+    if (rad < 0) {
+        rad += 2 * Math.PI;
     }
-};
-export function fadeIn(layer: __esri.Layer) {
-    layer.opacity = 0;
-    if (!layer.visible) {
-        layer.visible = true;
-    }
-    fadeLayer(layer);
+    return radToDeg(rad);
 }
 
+const radToDeg = (angle: number) => {
+    return 180 * angle / Math.PI;
+}
 export const roundNumber = (number: number, digits: number) => {
     return Number(number.toFixed(digits))
 }

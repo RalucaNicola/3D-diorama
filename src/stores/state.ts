@@ -2,14 +2,21 @@ import { action, makeObservable, observable } from "mobx"
 import { bookmarks } from "../config";
 
 class State {
-    activeBookmarkId: number = 0
+    selectedBookmarkIds;
     viewLoaded: boolean = false
     assetsLoaded: boolean = false
 
     constructor() {
+        this.selectedBookmarkIds = bookmarks.map(b => {
+            return {
+                id: b.id,
+                name: b.name,
+                status: false
+            }
+        })
         makeObservable(this, {
-            activeBookmarkId: observable,
-            setActiveBookmarkId: action,
+            selectedBookmarkIds: observable,
+            toggleSelection: action,
             viewLoaded: observable,
             setViewLoaded: action,
             assetsLoaded: observable,
@@ -17,21 +24,12 @@ class State {
         })
     }
 
-    next() {
-        if (this.activeBookmarkId < bookmarks.length - 1) {
-            this.setActiveBookmarkId(this.activeBookmarkId + 1);
-        }
-    }
-
-    previous() {
-        if (this.activeBookmarkId > 0) {
-            this.setActiveBookmarkId(this.activeBookmarkId - 1);
-        }
-    }
-
-    setActiveBookmarkId(id: number) {
-        this.activeBookmarkId = id;
-        console.log("I set the active id", id);
+    toggleSelection(bookmarkId: number) {
+        this.selectedBookmarkIds.forEach(b => {
+            if (b.id === bookmarkId) {
+                b.status = !b.status;
+            }
+        });
     }
 
     setViewLoaded() {

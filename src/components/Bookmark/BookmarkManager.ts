@@ -3,17 +3,9 @@ import { getPolygonEnvelopeFromGround } from "../../utils/groundAndWater";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import { Point, Polygon } from "@arcgis/core/geometry";
 import { createTurbineAnnotation, createTurbines, getGraphicFromModel } from "../../utils/assets";
-import { fadeIn } from "../../utils";
-import Camera from "@arcgis/core/Camera";
-import MeshTransform from "@arcgis/core/geometry/support/MeshTransform";
-import { PolygonSymbol3D, WaterSymbol3DLayer } from "@arcgis/core/symbols";
-import SunLighting from "@arcgis/core/views/3d/environment/SunLighting";
-import VirtualLighting from "@arcgis/core/views/3d/environment/VirtualLighting";
-import Color from "@arcgis/core/Color";
-import { quat, vec3 } from "gl-matrix";
-import SliceAnalysis from "@arcgis/core/analysis/SliceAnalysis";
 import state from "../../stores/state";
 import AnimationManager from '../../utils/AnimationManager';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 
 export default class BookmarkManager {
 
@@ -24,26 +16,21 @@ export default class BookmarkManager {
 
     turbineLocations: __esri.FeatureLayer;
     waterExtent: __esri.FeatureLayer;
+    submarineRoutes: __esri.FeatureLayer;
     elevation: __esri.ElevationLayer;
     groundAndWater: __esri.GraphicsLayer;
     assets3D: __esri.GraphicsLayer;
 
-    resolutionStep = 200;
-    animatingSailBoat = false;
+    resolutionStep = 100;
     waterHeight = 0;
     groundDepth = -1000;
 
     bladeGraphics: __esri.Graphic[];
-    trawlerGraphic: __esri.Graphic;
-    harborGraphic: __esri.Graphic;
-    waterSurface: __esri.Graphic;
+    sailBoat: __esri.Graphic;
+    pinpoint: __esri.Graphic;
+    submarine: __esri.Graphic;
 
     controller: AbortController;
-    sliceAnalysis: SliceAnalysis;
-    sailBoat: __esri.Graphic;
-    basemapFinal: __esri.GroupLayer;
-    scenario2050: __esri.GroupLayer;
-
 
     constructor(view: __esri.SceneView) {
         this.view = view;
@@ -66,6 +53,7 @@ export default class BookmarkManager {
         this.elevation = this.view.map.ground.layers.getItemAt(0) as __esri.ElevationLayer;
         this.waterExtent = this.view.map.layers.filter(layer => layer.title === "Water Extent").getItemAt(0) as __esri.FeatureLayer;
         this.turbineLocations = this.view.map.layers.filter(layer => layer.title === "Wind turbines").getItemAt(0) as __esri.FeatureLayer;
+        this.submarineRoutes = this.view.map.layers.filter(layer => layer.title === "Submarine Route").getItemAt(0) as __esri.FeatureLayer;
         this.groundAndWater = new GraphicsLayer({
             title: "Ground and water",
             elevationInfo: {
@@ -103,8 +91,6 @@ export default class BookmarkManager {
             endColor: [168, 138, 81, 255]
         }, this.elevation as __esri.ElevationLayer);
 
-        this.waterSurface = waterGraphics[0];
-
         this.groundAndWater.addMany([...waterGraphics, ...groundGraphics]);
     }
 
@@ -123,10 +109,39 @@ export default class BookmarkManager {
                 y: 4307521.548889681,
                 z: this.waterHeight,
                 spatialReference: this.spatialReference
-            }), [0, 0, 0], 1
+            })
         );
 
-        this.assets3D.addMany([...bladeGraphics, ...pillarGraphics, annotationGraphic, this.sailBoat]);
+        const routes = await this.submarineRoutes.queryFeatures({ where: "1=1", returnGeometry: true, returnZ: true });
+        const route = routes.features[0];
+        const routeGeometry = route.geometry as __esri.Polyline;
+
+        const [x, y, z] = routeGeometry.paths[0][0];
+        this.submarine = await getGraphicFromModel("./assets/models/yellow_submarine.glb",
+            new Point({
+                x, y, z, spatialReference: routeGeometry.spatialReference
+            })
+        );
+        this.animationManager.setupSubmarineAnimation(routeGeometry, this.submarine);
+
+        this.pinpoint = await getGraphicFromModel("./assets/models/pinpoint.glb",
+            new Point({
+                x: -13537233.287500003,
+                y: 4312543.795616967,
+                z: 442, spatialReference: routeGeometry.spatialReference
+            })
+        );
+        this.setupCameraHeadingListener();
+
+        this.assets3D.addMany([...bladeGraphics, ...pillarGraphics, annotationGraphic, this.sailBoat, this.submarine, this.pinpoint]);
+    }
+
+    setupCameraHeadingListener() {
+        reactiveUtils.watch(() => Math.round(this.view.camera.heading), (heading) => {
+            const geometry = this.pinpoint.geometry as __esri.Mesh;
+            geometry.transform.rotationAngle = 180 - heading;
+            geometry.transform.rotationAxis = [0, 0, 1];
+        }, { initial: true });
     }
 
     resetSignal() {
@@ -137,22 +152,40 @@ export default class BookmarkManager {
         return this.controller.signal;
     };
 
-
-
-    async activateBookmark(id: number) {
+    async activateBookmark(id: number, status: boolean) {
         switch (id) {
             case 0:
-                this.animationManager.stopAnimatingTurbines();
+                if (status) {
+                    this.view.goTo(this.bladeGraphics);
+                    this.animationManager.animateTurbines(this.bladeGraphics);
+                } else {
+                    this.animationManager.stopAnimatingTurbines();
+                }
                 break;
             case 1:
-                this.animationManager.animateTurbines(this.bladeGraphics);
+                if (status) {
+                    this.view.goTo(this.pinpoint);
+                    this.animationManager.animatePinpoint(this.pinpoint);
+                } else {
+                    this.animationManager.stopAnimatingPinpoint();
+                }
                 break;
             case 2:
-                this.animationManager.animateBoat(this.sailBoat);
+                if (status) {
+                    this.view.goTo(this.sailBoat);
+                    this.animationManager.animateBoat(this.sailBoat);
+                } else {
+                    this.animationManager.stopAnimatingBoat();
+                }
+                break;
+            case 3:
+                if (status) {
+                    this.view.goTo(this.submarine);
+                    this.animationManager.animateSubmarine();
+                } else {
+                    this.animationManager.stopAnimatingSubmarine();
+                }
                 break
         }
-    }
-
-    destroy() {
     }
 }

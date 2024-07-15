@@ -11,67 +11,43 @@ import '@esri/calcite-components/dist/components/calcite-progress';
 interface Props {
   name: string;
   active: boolean;
-  visited: boolean;
+  onClick: () => void;
 }
 
-export const Bookmark: FC<Props> = ({ name, active, visited }) => {
+export const Bookmark: FC<Props> = ({ name, active, onClick }) => {
   return (
-    <div className={`${styles.bookmark} ${active ? styles.active : ''} ${visited ? styles.visited : ''}`}>
-      <p>{name}</p>
-    </div>
+    <button className={`${styles.bookmark} ${active ? styles.active : ''}`} onClick={onClick}>
+      {name}
+    </button>
   );
 };
 
 export const Bookmarks = observer(() => {
-  const { activeBookmarkId, viewLoaded, assetsLoaded } = state;
+  const { selectedBookmarkIds, viewLoaded, assetsLoaded } = state;
   const bookmarkManagerRef = useRef<BookmarkManager>();
-
-  useEffect(() => {
-    if (bookmarkManagerRef.current) {
-      bookmarkManagerRef.current.activateBookmark(activeBookmarkId);
-    }
-  }, [activeBookmarkId]);
 
   useEffect(() => {
     if (viewLoaded) {
       const view = getView();
       const bookmarkManager = new BookmarkManager(view);
       bookmarkManagerRef.current = bookmarkManager;
-
-      return () => {
-        bookmarkManager.destroy();
-      };
     }
   }, [viewLoaded]);
-
-  useEffect(() => {
-    if (assetsLoaded) {
-      const keyNavigationEventListener = (event: KeyboardEvent) => {
-        if (event.key === 'ArrowLeft') {
-          state.previous();
-        }
-        if (event.key === 'ArrowRight') {
-          state.next();
-        }
-      };
-      document.addEventListener('keydown', keyNavigationEventListener);
-
-      return () => {
-        document.removeEventListener('keydown', keyNavigationEventListener);
-      };
-    }
-  }, [assetsLoaded]);
 
   return (
     <>
       <div className={styles.container}>
-        {bookmarks.map((bookmark) => {
+        {selectedBookmarkIds.map((bookmark) => {
           return (
             <Bookmark
               key={bookmark.id}
               name={bookmark.name}
-              active={activeBookmarkId === bookmark.id}
-              visited={bookmark.id < activeBookmarkId}
+              active={bookmark.status}
+              onClick={() => {
+                state.toggleSelection(bookmark.id);
+                bookmarkManagerRef.current.activateBookmark(bookmark.id, bookmark.status);
+                console.log('Bookmark has been clicked', bookmark.id);
+              }}
             ></Bookmark>
           );
         })}

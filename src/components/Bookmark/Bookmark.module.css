@@ -4,8 +4,8 @@
   left: 0;
   right: 0;
   display: flex;
-  background-color: var(--background-color);
 }
+
 .bookmark {
   background-color: var(--background-color);
   color: rgb(210, 210, 210);

@@ -9,11 +9,13 @@ export const applicationTitle = 'Offshore diorama';
 export const bookmarks = [{
   id: 0,
   name: "Hello world"
-},
-{
+}, {
   id: 1,
-  name: "Wind turbines"
+  name: "Submarine"
 }, {
   id: 2,
+  name: "Wind turbines"
+}, {
+  id: 3,
   name: "Sailing boat"
 }]

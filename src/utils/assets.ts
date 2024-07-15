@@ -6,7 +6,7 @@ import { FillSymbol3DLayer, MeshSymbol3D, ObjectSymbol3DLayer, PointSymbol3D } f
 const pillarHeight = 80;
 export const bladeLength = 55;
 const underwaterLength = 10;
-export const getGraphicFromModel = async (url: string, geometry: __esri.Point, translate: number[], scale: number = 1, rotate: number = 0) => {
+export const getGraphicFromModel = async (url: string, geometry: __esri.Point, translate: number[] = [0, 0, 0], scale: number = 1, rotate: number = 0) => {
     const mesh = await Mesh.createFromGLTF(geometry, url, { vertexSpace: 'georeferenced' });
     const offset = translate.map((t) => t * scale);
     mesh.scale(scale);
