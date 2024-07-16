@@ -8,7 +8,6 @@ const App = () => {
     <>
       <Map></Map>
       <Bookmarks></Bookmarks>
-      <Identity></Identity>
       <Footer></Footer>
     </>
   );
