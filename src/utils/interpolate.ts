@@ -1,6 +1,7 @@
+// Code by Arno Fiva: https://github.com/arnofiva/animations
+
 import Camera from "@arcgis/core/Camera";
 import { Point } from "@arcgis/core/geometry";
-
 
 type LerpObject = Point | Camera;
 type LerpValue = number | number[] | Date | LerpObject;
@@ -58,23 +59,6 @@ const objectLerp = <T extends LerpObject>(a: T, b: T, t: number, total?: number,
   throw new Error("Values a and b do not have compatible types for interpolation");
 }
 
-const arrayLerp = (a: number[], b: number[], t: number, total?: number, modulo?: number): number[] => {
-  if (a.length === b.length) {
-    return a.map((value, index) => interpolate(value, b[index], t, total, modulo)) as any;
-  }
-  throw new Error("Value arrays must have same length for interpolation");
-}
-
-const isDate = (date: any): boolean => {
-  return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
-}
-
-const dateLerp = (a: Date, b: Date, t: number, total?: number): Date => {
-  const aTime = a.getTime();
-  const bTime = b.getTime();
-  return new Date(numberLerp(aTime, bTime, t, total));
-}
-
 const interpolate = <T extends LerpValue>(a: T, b: T, t: number, total?: number, modulo?: number): T | undefined => {
 
   const typeofA = typeof a;
@@ -83,15 +67,8 @@ const interpolate = <T extends LerpValue>(a: T, b: T, t: number, total?: number,
 
     if (typeofA === "number") {
       return numberLerp(a as number, b as number, t, total, modulo) as T;
-
     } else if (typeofA === "object") {
-      if (Array.isArray(a) && Array.isArray(b)) {
-        return arrayLerp(a, b, t, total, modulo) as T;
-      } else if (isDate(a) && isDate(b)) {
-        return dateLerp(a as Date, b as Date, t, total) as T;
-      } else {
-        return objectLerp(a as LerpObject, b as LerpObject, t, total) as T;
-      }
+      return objectLerp(a as LerpObject, b as LerpObject, t, total) as T;
     } else if (a === undefined) {
       return undefined;
     }

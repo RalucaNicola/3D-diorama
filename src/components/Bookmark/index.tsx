@@ -51,7 +51,6 @@ export const Bookmarks = observer(() => {
               onClick={() => {
                 state.toggleSelection(bookmark.id);
                 bookmarkManagerRef.current.activateBookmark(bookmark.id, bookmark.status);
-                console.log('Bookmark has been clicked', bookmark.id);
               }}
             ></Bookmark>
           );

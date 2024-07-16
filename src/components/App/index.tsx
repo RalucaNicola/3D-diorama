@@ -1,4 +1,5 @@
 import { Bookmarks } from '../Bookmark';
+import { Footer } from '../Footer';
 import { Identity } from '../Identity';
 import { Map } from '../Map';
 
@@ -8,6 +9,7 @@ const App = () => {
       <Map></Map>
       <Bookmarks></Bookmarks>
       <Identity></Identity>
+      <Footer></Footer>
     </>
   );
 };

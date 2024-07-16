@@ -3,11 +3,12 @@
 .calcite-mode-dark,
 :root {
   --calcite-color-brand: #f29c3f;
-  --calcite-color-brand-hover: #f27e00;
+  --calcite-color-brand-hover: #f25d00;
   --border-radius: 10px;
   --box-shadow: 2px 4px 4px hsla(0, 0%, 2%, 0.2), 4px 8px 8px hsla(0, 0%, 2%, 0.2), 8px 16px 16px hsla(0, 0%, 2%, 0.2);
   --margin: 15px;
   --background-color: rgba(50 50 50 / 60%);
+  --calcite-font-family: 'Space Mono', monospace;
   --calcite-font-size--1: 0.85rem;
   --calcite-ui-text-1: rgb(230, 230, 230);
   --calcite-ui-text-2: rgb(210, 210, 210);
@@ -22,7 +23,7 @@ body,
   margin: 0;
   height: 100%;
   width: 100%;
-  font-family: 'Space Mono', monospace;
+  font-family: var(--calcite-font-family);
   color: var(--calcite-ui-text-1);
   background: var(--background-color);
   overflow: hidden;

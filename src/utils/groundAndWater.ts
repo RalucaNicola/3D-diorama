@@ -120,5 +120,4 @@ export const getPolygonEnvelopeFromGround = async ({
         console.log(error);
     }
 
-
 }

@@ -1,6 +1,6 @@
 .menu {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   left: 0;
   right: 0;
   padding: 20px;
@@ -34,7 +34,7 @@ button.bookmark {
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.7s ease;
-  font-family: 'Press Start 2P', cursive;
+  font-family: var(--calcite-font-family);
 }
 
 button.bookmark:hover {

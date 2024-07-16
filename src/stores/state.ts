@@ -37,7 +37,6 @@ class State {
     }
 
     setAssetsLoaded() {
-        console.log("assets loaded");
         this.assetsLoaded = true;
     }
 }

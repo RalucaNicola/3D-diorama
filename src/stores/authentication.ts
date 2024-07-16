@@ -65,7 +65,7 @@ class AppAuthentication {
                 thumbnailUrl: portal.user?.thumbnailUrl
             });
         } catch (error) {
-            // console.log(error);
+            console.log(error);
         }
     }
 

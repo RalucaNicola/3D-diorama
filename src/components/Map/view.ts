@@ -4,8 +4,6 @@ import SceneView from "@arcgis/core/views/SceneView";
 import VirtualLighting from "@arcgis/core/webscene/VirtualLighting";
 import { mapConfig } from "../../config";
 import state from "../../stores/state";
-import Slice from "@arcgis/core/widgets/Slice";
-import DirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D";
 
 let view: __esri.SceneView = null;
 
@@ -38,11 +36,9 @@ export const initializeView = async (divRef: HTMLDivElement) => {
                 top: 50,
                 bottom: 0
             },
-            viewingMode: "local",
             ui: {
                 components: []
             },
-            qualityProfile: "low",
             alphaCompositingEnabled: true,
             environment: {
                 lighting: new VirtualLighting({
@@ -68,25 +64,7 @@ export const initializeView = async (divRef: HTMLDivElement) => {
 
         (window as any).view = view;
 
-        // const measurement = new DirectLineMeasurement3D({ view });
-        // view.ui.add(measurement, "top-right");
-
-        // const lightWidget = new Daylight({ view });
-        // view.ui.add(lightWidget, 'top-right');
-
-        // const slice = new Slice({
-        //     view
-        // });
-        // view.ui.add(slice, "top-right");
-        // (window as any).slice = slice;
-
         await view.when(async () => {
-            view.on("key-down", (event) => {
-                event.stopPropagation();
-            });
-            view.on("key-up", (event) => {
-                event.stopPropagation();
-            });
             state.setViewLoaded();
         });
     } catch (error) {

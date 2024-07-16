@@ -47,6 +47,7 @@ export default class AnimationManager {
         }
     }
 
+    // code by Hugo Campos (https://github.com/hccampos)
     async animateBoat(graphic: __esri.Graphic) {
         this.animatingBoat = true;
         let angle = 0;
@@ -152,7 +153,6 @@ export default class AnimationManager {
         });
         this.submarine.transform ??= new MeshTransform();
         const angle = getAngle(this.points[0], this.points[1]);
-        console.log(angle);
         this.submarine.transform.rotationAngle = angle;
         this.submarine.transform.rotationAxis = [0, 0, 1];
 
