@@ -206,7 +206,6 @@ export default class AnimationManager {
     }
 
     animatePinpoint(graphic: __esri.Graphic) {
-        let scale = 1;
         let startTime: number = null;
         this.animatingPinpoint = true;
         const animate = (elapsedTime: number) => {
@@ -214,7 +213,7 @@ export default class AnimationManager {
                 startTime = elapsedTime;
             }
             const timeDif = (elapsedTime - startTime) / 1000;
-            scale = 1 + Math.abs(Math.sin(timeDif * 2));
+            const scale = 1 + Math.abs(Math.sin(timeDif * 2));
             const geometry = graphic.geometry as __esri.Mesh;
             geometry.transform ??= new MeshTransform();
             geometry.transform.scale = [scale, scale, scale];
