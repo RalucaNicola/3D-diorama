@@ -109,7 +109,7 @@ export default class AnimationManager {
 
         const animateBlades = (geometry: __esri.Mesh, rpm: number) => {
             const dt = Date.now() / 1000 - startTime;
-            const bladeRotation = (dt / 60) * rpm;
+            const bladeRotation = (dt / 60) * rpm * 360;
 
             geometry.transform.rotationAngle = bladeRotation;
             geometry.transform.rotationAxis = [0, 1, 0];
@@ -233,5 +233,5 @@ export default class AnimationManager {
 
 const getRPM = (windSpeed: number) => {
     const tipSpeedRatio = 6.0;
-    return (60 * windSpeed * tipSpeedRatio) / (Math.PI * 2 * bladeLength / 100);
+    return (60 * windSpeed * tipSpeedRatio) / (Math.PI * 2 * bladeLength);
 };

@@ -139,7 +139,7 @@ export default class BookmarkManager {
     setupCameraHeadingListener() {
         reactiveUtils.watch(() => Math.round(this.view.camera.heading), (heading) => {
             const geometry = this.pinpoint.geometry as __esri.Mesh;
-            geometry.transform.rotationAngle = 180 - heading;
+            geometry.transform.rotationAngle = -heading + 20;
             geometry.transform.rotationAxis = [0, 0, 1];
         }, { initial: true });
     }
