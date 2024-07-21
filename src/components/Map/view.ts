@@ -36,6 +36,7 @@ export const initializeView = async (divRef: HTMLDivElement) => {
                 top: 50,
                 bottom: 0
             },
+            qualityProfile: "high",
             ui: {
                 components: []
             },
