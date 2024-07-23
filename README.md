@@ -1,15 +1,8 @@
-# ArcGIS app template
+# 3D diorama
 
-Application template using ArcGIS Maps SDK for JavaScript, React and Calcite.
+A web application that demonstrates animations of graphics with mesh geometry in ArcGIS Maps SDK for JavaScript.
 
-- [x] Authentication
-- [x] Calcite components for UI
-- [x] MobX for state management
-- [x] Responsive design (mobile and desktop)
-- [x] Reading/setting state from/in URL params
-- [x] Error display using Calcite alerts (only displaying the last error)
-- [x] Dismissable intro screen
-- [x] UI animations (using Framer Motion)
+[![screenshot](./public/screenshot.png)](https://geoxc-apps4.bd.esri.com/experiments/animations/)
 
 ## Instructions:
 
@@ -17,7 +10,7 @@ You need to have [git](https://git-scm.com/) and [npm](https://www.npmjs.com/) i
 Clone this repository to your computer with the following command:
 
 ```sh
-git clone git@github.com:RalucaNicola/arcgis-template.git
+git clone git@github.com:RalucaNicola/3D-diorama.git
 ```
 
 Install the modules that are need to run the app:
