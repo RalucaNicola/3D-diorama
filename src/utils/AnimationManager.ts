@@ -53,7 +53,7 @@ export default class AnimationManager {
         let angle = 0;
         let phase = 0;
         let prevTime: number | undefined = undefined;
-        const factor = 0.0003;
+        const frequencyFactor = 0.0005;
         const dampingFactor = 0.7;
         const tmpQuaternion = quat.create();
         const axis = vec3.fromValues(0, 0, 0);
@@ -68,20 +68,22 @@ export default class AnimationManager {
             const dt = elapsedTime - prevTime;
             prevTime = elapsedTime;
 
-            angle += factor * dt;
-            phase += factor * dt;
+            angle += frequencyFactor * dt;
+            phase += frequencyFactor * dt;
             geometry.transform ??= new MeshTransform();
 
             const { rotationAxis, rotationAngle } = geometry.transform;
             quat.setAxisAngle(tmpQuaternion, vec3.fromValues(rotationAxis[0], rotationAxis[1], rotationAxis[2]), rotationAngle);
 
-            // Simulate wave dynamics with multiple sine waves and some randomness
+            // Simulate wave dynamics with multiple sine waves
             const waveY = Math.sin(angle) * 0.03 + Math.sin(angle + phase / 2) * 0.05;
             const waveX = Math.sin(angle + phase) * 0.05 + Math.cos(angle) * 0.02;
+            const waveZ = Math.sin(angle + phase) * 0.2 + 0.5;
 
-            // Apply damping to gradually reduce wobbling over time
+            // Apply damping to reduce wobbling
             const dampedWaveX = waveX * dampingFactor;
             const dampedWaveY = waveY * dampingFactor;
+            const dampedWaveZ = waveZ * dampingFactor;
 
             // Update the quaternion rotation
             quat.identity(tmpQuaternion);
@@ -91,6 +93,8 @@ export default class AnimationManager {
             const newAngle = quat.getAxisAngle(axis, tmpQuaternion);
             geometry.transform.rotationAxis = [axis[0], axis[1], axis[2]];
             geometry.transform.rotationAngle = (newAngle * 180) / Math.PI;
+
+            geometry.transform.translation = [0, 0, -dampedWaveZ];
 
             if (this.animatingBoat) {
                 requestAnimationFrame(animate);
