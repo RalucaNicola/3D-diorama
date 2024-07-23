@@ -39,7 +39,7 @@ export const Bookmarks = observer(() => {
       <h1>Animations</h1>
       <p className={styles.description}>
         A demonstration on animating 3D models by translating, rotating or scaling them. Read the blog post{' '}
-        <a href='#'>here</a>.
+        <a href='https://www.esri.com/arcgis-blog/products/js-api-arcgis/3d-gis/mesh-animations-javascript/'>here</a>.
       </p>
       <div className={styles.container}>
         {selectedBookmarkIds.map((bookmark) => {
